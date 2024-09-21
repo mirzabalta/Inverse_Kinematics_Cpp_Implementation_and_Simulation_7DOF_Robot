@@ -94,4 +94,4 @@ Doprinos
 Ako želite doprinijeti ovom projektu, slobodno otvorite issue ili pošaljite pull request. Doprinosi su dobrodošli, bilo da su to ispravci grešaka, poboljšanja ili nove značajke.
 Licenca
 
-Ovaj projekt je licenciran pod MIT licencom - pogledajte datoteku LICENSE za detalje.
+Ovaj projekt je licenciran pod MIT licencom - pogledajte datoteku [LICENSE](LICENCE) za detalje.
