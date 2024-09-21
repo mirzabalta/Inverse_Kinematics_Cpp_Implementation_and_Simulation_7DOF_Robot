@@ -1,4 +1,4 @@
-#Inverzna kinematika 7-DOF robotskog manipulatora korištenjem BFGS optimizacije
+# Inverzna kinematika 7-DOF robotskog manipulatora korištenjem BFGS optimizacije
 
 Ovaj repozitorij sadrži implementaciju rješenja za inverznu kinematiku 7-DOF (stupnjeva slobode) robotskog manipulatora. Broyden–Fletcher–Goldfarb–Shanno (BFGS) optimizacijski algoritam primijenjen je za učinkovito rješavanje problema inverzne kinematike.
 Sadržaj
