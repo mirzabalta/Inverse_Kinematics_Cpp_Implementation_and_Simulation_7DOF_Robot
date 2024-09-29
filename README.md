@@ -1,97 +1,75 @@
-# Inverzna kinematika 7-DOF robotskog manipulatora korištenjem BFGS optimizacije
+# Optimizacijski pristup i primjena BFGS algoritma u rješavanju problema inverzne kinematike robotskog manipulatora
 
-Ovaj repozitorij sadrži implementaciju rješenja za inverznu kinematiku 7-DOF (stupnjeva slobode) robotskog manipulatora. Broyden–Fletcher–Goldfarb–Shanno (BFGS) optimizacijski algoritam primijenjen je za učinkovito rješavanje problema inverzne kinematike
+Ovaj repozitorij sadrži implementaciju rješenja problema inverzne kinematike 7-DOF (7 stepeni slobode kretanja) robotskog manipulatora. **Broyden–Fletcher–Goldfarb–Shanno (BFGS)** optimizacijski algoritam primijenjen je za rješavanje ovog problema. Ovaj algoritam je implementiran u programskom jeziku C++, u obliku **S-funkcije** koja je kao blok inverzne kinematike primijenjena u simulaciji koja je rađena u **Matlab Simulink-u**. Problem inverzne kinematike je tretiran kao problem nelinearne optimizacije bez ograničenja za varijable, čime je omogućena direktna primjena BFGS metode.
 
-[Uvod](#uvod)
+## Sadržaj
+- [Uvod](#uvod)
+- [Algoritam](#algoritam)
+- [Ulazi i izlazi algoritma](#ulazi-i-izlazi-algoritma)
+- [Datoteke](#datoteke)
+- [Simulacija](#simulacija)
+- [Doprinos](#doprinos)
+- [Licenca](#licenca)
 
 ## Uvod
 
-Inverzna kinematika je postupak određivanja kuteva zglobova robotskog manipulatora na temelju željene pozicije i orijentacije krajnjeg efektora. Za 7-DOF robotski manipulator, problem je vrlo nelinearan, što otežava tradicionalna analitička rješenja. Ovaj projekt koristi BFGS optimizacijski pristup, koji je kvazi-Newtonova metoda, kako bi iterativno riješio problem inverzne kinematike.
-Značajke
+Svaki zadatak koji robot obavlja može se svesti na ispravno pozicioniranje i orijentaciju vrha manipulatora, dok izvršenje zadatka obavljaju aktuatori koji pokreću zglobove pri tome mijenjajući varijable zglobova. **Direktna kinematika** robota izražava ovisnost pozicije i orijentacije vrha manipulatora od varijabli zglobova. **Inverzna kinematika** je postupak određivanja varijabli zglobova robotskog manipulatora na osnovu poznate željene pozicije i orijentacije vrha manipulatora. Problem je vrlo nelinearan, što otežava tradicionalna analitička rješenja. Za **7-DOF** redundantni robotski manipulator rješenje ovog problema nije jedinstveno, što predstavlja dodatni izazov. Ovaj projekt koristi **BFGS optimizacijski pristup**, kako bi iterativno riješio problem inverzne kinematike.
 
-    7-DOF robotski manipulator: Dizajniran za sustave s visokim stupnjem slobode, što je tipično u naprednoj robotici.
-    BFGS optimizacija: BFGS algoritam koristi se za minimizaciju pogreške između željene i stvarne pozicije krajnjeg efektora.
-    Učinkovito računanje: Omogućuje učinkovito rješenje problema inverzne kinematike uz brzu konvergenciju.
-    Prilagodljiv: Jednostavno prilagodljiv različitim robotskim manipulatorima sa 7 stupnjeva slobode.
+## Algoritam
 
-Instalacija
+U inverznoj kinematici, cilj je odrediti zglobne varijable robotskog manipulatora koje rezultiraju željenom pozicijom i orijentacijom vrha manipulatora. Ovaj problem se može postaviti kao optimizacijski problem, gdje je cilj **minimizirati grešku** između željene pozicije (i orijentacije) i stvarne pozicije (i orijentacije) vrha manipulatora.
 
-Da biste koristili ovaj projekt, slijedite ove korake:
+### Funkcija cilja uključuje:
 
-    Klonirajte repozitorij:
+- **Grešku pozicije**: Izražava rastojanje trenutne pozicije vrha manipulatora (funkcija zglobnih varijabli) od željene pozicije.
+- **Grešku orijentacije**: Izražava odstupanje trenutne orijentacije vrha manipulatora od željene orijentacije, koje se može izraziti vektorskim dijelom kvaterniona.
 
-    bash
+Željena pozicija i orijentacija vrha manipulatora se dobivaju na osnovu matrice homogene transformacije, dok se trenutna pozicija i orijentacija dobivaju iz jednadžbe direktne kinematike. **Zglobne varijable** predstavljaju problemske varijable algoritma optimizacije, a vektor zglobnih varijabli je izlaz algoritma inverzne kinematike.
 
-git clone https://github.com/yourusername/7dof-robot-ik-bfgs.git
-cd 7dof-robot-ik-bfgs
+## Ulazi i izlazi algoritma
 
-Instalirajte ovisnosti:
+### Ulazi:
+- **Pose**: Željena pozicija i orijentacija vrha manipulatora, data kao 4x4 matrica homogene transformacije.
+- **Init**: Početna vrijednost zglobnih varijabli, koja predstavlja početnu aproksimaciju BFGS algoritma.
 
-Provjerite imate li C++ prevoditelj i sve potrebne ovisnosti (npr. Eigen za rad s matricama):
+### Izlazi:
+- **Config**: Vektor zglobnih varijabli, koji omogućava postizanje željene pozicije vrha manipulatora.
+- **Criterion Value**: Vrijednost funkcije kriterija koja izražava mjeru odstupanja postignute pozicije i orijentacije od željene.
 
-bash
+## Datoteke
 
-sudo apt-get install g++
+- **Libraries** sadrži implementirane biblioteke:
+  1. `BFGSAlgorithm.cpp`: Implementacija BFGS algoritma i funkcije cilja.
+  2. `LineSearch.cpp`: Implementacija algoritma linijskog pretraživanja.
+  3. `MatrixLibrary.cpp`: Implementacija operacija s matricama i vektorima.
+  
+- **Inverse_Kinematics_BFGS_wrapper.cpp**: Definira DH parametre robota i poziva funkcije iz biblioteka.
+- **Robot_Params_and_Waypoints_Data.m**: Učitava parametre robota i putne tačke.
+- **Robot_IK_Simulation.slx**: Simulacija robota u obliku Simulink blok dijagrama.
+- **Documentation.pdf**: Detaljna dokumentacija projekta.
+- **trajExampleUtils.slx** i **visualizeRobot.m**: Koriste se za vizualizaciju robota.
 
-Ako koristite vanjsku biblioteku poput Eigen:
+## Simulacija
 
-bash
+Za korištenje ovog projekta potrebno je:
 
-sudo apt-get install libeigen3-dev
+1. Instalirati **C++ kompajler** u Matlab-u (komanda: `mex -setup C++`).
+2. Klonirati repozitorij.
+3. Pokrenuti `Robot_Params_and_Waypoints_Data.m`.
+4. Otvoriti `Robot_IK_Simulation.slx` i kompajlirati S-funkciju.
+5. Pokrenuti simulaciju.
 
-Sastavite projekt:
+## Doprinos
 
-Koristite sustav za izgradnju poput CMake ili izravno prevodite pomoću g++:
+Ako želite doprinijeti projektu, slobodno otvorite **issue** ili pošaljite **pull request**. Svi doprinosi su dobrodošli.
 
-bash
+## Licenca
 
-    g++ -o inverse_kinematics main.cpp -I /usr/include/eigen3
+Ovaj projekt je licenciran pod **MIT licencom** - pogledajte datoteku LICENSE za detalje.
 
-Korištenje
+## Osobine
 
-Nakon sastavljanja, možete pokrenuti izvršni program za računanje inverzne kinematike za zadanu poziciju i orijentaciju krajnjeg efektora.
-
-Primjer naredbe:
-
-bash
-
-./inverse_kinematics
-
-Modificirajte datoteku main.cpp kako biste postavili željenu poziciju krajnjeg efektora i ograničenja zglobova.
-Ulaz
-
-Kod očekuje sljedeće ulazne podatke:
-
-    Željena pozicija i orijentacija krajnjeg efektora: Dana kao 4x4 matrica transformacije.
-    Početni kutovi zglobova: Korišteni kao početna točka za BFGS optimizaciju.
-    Parametri robota: Kao što su duljine poveznica i ograničenja zglobova za 7-DOF manipulator.
-
-Izlaz
-
-Program vraća kutove zglobova koji omogućuju postizanje željene pozicije krajnjeg efektora.
-Optimizacijski pristup
-BFGS algoritam
-
-BFGS algoritam je iterativna optimizacijska metoda koja aproksimira inverznu Hessianovu matricu kako bi pronašao minimum nelinearne funkcije. U kontekstu inverzne kinematike, koristi se za minimizaciju pogreške između stvarne i željene pozicije krajnjeg efektora. Algoritam iterativno prilagođava kutove zglobova dok rješenje ne konvergira.
-
-Ključni koraci:
-
-    Ciljna funkcija: Mjeri razliku između trenutne i ciljne pozicije krajnjeg efektora.
-    Izračun gradijenta: Aproksimira gradijent ciljne funkcije.
-    Aproksimacija Hessianove matrice: BFGS metoda ažurira aproksimaciju Hessianove matrice.
-    Konvergencija: Rješenje konvergira kada pogreška padne ispod unaprijed definiranog praga.
-
-Za više detalja o BFGS metodi, pogledajte Wikipedia.
-Datoteke
-
-    main.cpp: Glavni program koji inicijalizira parametre robota, postavlja ciljnu poziciju krajnjeg efektora i pokreće BFGS optimizaciju.
-    robot_kinematics.cpp/.h: Funkcije za prednju i inverznu kinematiku 7-DOF robotskog manipulatora.
-    bfgs_optimization.cpp/.h: Implementacija BFGS optimizacijskog algoritma.
-    CMakeLists.txt: Konfiguracija za izgradnju ako koristite CMake.
-
-Doprinos
-
-Ako želite doprinijeti ovom projektu, slobodno otvorite issue ili pošaljite pull request. Doprinosi su dobrodošli, bilo da su to ispravci grešaka, poboljšanja ili nove značajke.
-Licenca
-
-Ovaj projekt je licenciran pod MIT licencom - pogledajte datoteku [LICENSE](LICENSE) za detalje.
+- **7-DOF robotski manipulator**: Dizajniran za sisteme s visokim stepenom slobode.
+- **BFGS optimizacija**: Efikasno rješenje problema inverzne kinematike.
+- **Brza konvergencija**: Omogućava brzo i numerički stabilno rješenje.
+- **Prilagodljiv**: Jednostavno prilagodljiv različitim manipulatorima.
