@@ -65,7 +65,7 @@ Ako želite doprinijeti projektu, slobodno otvorite **issue** ili pošaljite **p
 
 ## Licenca
 
-Ovaj projekt je licenciran pod **MIT licencom** - pogledajte datoteku[LICENCE](./LICENCE) za detalje.
+Ovaj projekt je licenciran pod **MIT licencom** - pogledajte datoteku [LICENSE](./LICENSE) za detalje.
 
 ## Osobine
 
