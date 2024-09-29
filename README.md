@@ -17,12 +17,12 @@ Svaki zadatak koji robot obavlja može se svesti na ispravno pozicioniranje i or
 
 ## Algoritam
 
-U inverznoj kinematici, cilj je odrediti zglobne varijable robotskog manipulatora koje rezultiraju željenom pozicijom i orijentacijom vrha manipulatora. Ovaj problem se može postaviti kao optimizacijski problem, gdje je cilj **minimizirati grešku** između željene pozicije (i orijentacije) i stvarne pozicije (i orijentacije) vrha manipulatora.
+U inverznoj kinematici, cilj je odrediti zglobne varijable robotskog manipulatora koji rezultiraju željenom pozicijom i orijentacijom vrha manipulatora. Ovaj problem se može postaviti kao optimizacijski problem,  gdje je cilj minimizirati grešku između željene pozicije (i orijentacije)  i stvarne pozicije (i orijentacije) vrha manipulatora.  Ova formulacija omogućava rješavanje problema inverzne kinematike koristeći optimizacijske tehnike poput BFGS algoritma, koji iterativno minimizira grešku i konvergira ka rješenju koje daje konfiguraciju zglobova za željenu poziciju i orijentaciju. U terminima optimizacije greška pozicije i orijentacije se može izraziti kao  funkcija cilja (ili kriterij optimalnosti). BFGS algoritam, kao i algoritam jednodimenzionalnog pretraživana kojeg on koristi, su detaljno opisani u fajlu Documentation.
 
-### Funkcija cilja uključuje:
+Funkcija cilja izrazava  mjeru odstupanja trenutne pozicije i orijentacije vrha manipulatora od njegove zeljene pozicije i orijentacije. Funkcija cilja u sebe ukljucuje::
 
 - **Grešku pozicije**: Izražava rastojanje trenutne pozicije vrha manipulatora (funkcija zglobnih varijabli) od željene pozicije.
-- **Grešku orijentacije**: Izražava odstupanje trenutne orijentacije vrha manipulatora od željene orijentacije, koje se može izraziti vektorskim dijelom kvaterniona.
+- **Grešku orijentacije**: Izražava odstupanje trenutne orijentacije vrha manipulatora od željene orijentacije. Greška orijentacije se može izraziti vektorskim dijelom kvaterniona.
 
 Željena pozicija i orijentacija vrha manipulatora se dobivaju na osnovu matrice homogene transformacije, dok se trenutna pozicija i orijentacija dobivaju iz jednadžbe direktne kinematike. **Zglobne varijable** predstavljaju problemske varijable algoritma optimizacije, a vektor zglobnih varijabli je izlaz algoritma inverzne kinematike.
 
