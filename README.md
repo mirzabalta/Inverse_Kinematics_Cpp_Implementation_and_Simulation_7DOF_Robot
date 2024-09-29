@@ -51,7 +51,7 @@ Izlazi bloka s-funkcije:
 
 ## Simulacija
 
-Da biste koristili ovaj projekt, potrebno je na računaru imati instaliran Matlab, verziju R2020a ili verziju noviju od ove verzije. Simulacija je rađena sa KUKA iiwa robotom koji ima 7 stepeni slobode kretanja (7-DOF, koji je dizajniran za precizne i fleksibilne aplikacije u automatizaciji. Ovaj robot posjeduje 7 stepeni slobode kretanja. Da bi simulirali i demonstrirali rad implementiranog algoritma inverzne kinematike, slijedite sljedeće korake:
+Da biste koristili ovaj projekt, potrebno je na računaru imati instaliran Matlab, verziju R2020a ili verziju noviju od ove verzije. Simulacija je rađena sa KUKA iiwa robotom koji ima 7 stepeni slobode kretanja (7-DOF). Da bi simulirali i demonstrirali rad implementiranog algoritma inverzne kinematike, slijedite sljedeće korake:
 
 1. Instalirati **C++ kompajler** u Matlab-u (komanda: `mex -setup C++`).
 2. Klonirati repozitorij.
