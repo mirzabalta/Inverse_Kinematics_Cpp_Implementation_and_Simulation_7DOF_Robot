@@ -28,11 +28,11 @@ U inverznoj kinematici, cilj je odrediti zglobne varijable robotskog manipulator
 
 ## Ulazi i izlazi algoritma
 
-### Ulazi:
+Ulazi bloka s-funkcije u kojoj je implementiran algoritam inverzne kinematike su:
 - **Pose**: Željena pozicija i orijentacija vrha manipulatora, data kao 4x4 matrica homogene transformacije.
 - **Init**: Početna vrijednost zglobnih varijabli, koja predstavlja početnu aproksimaciju BFGS algoritma.
 
-### Izlazi:
+Izlazi bloka s-funkcije:
 - **Config**: Vektor zglobnih varijabli, koji omogućava postizanje željene pozicije vrha manipulatora.
 - **Criterion Value**: Vrijednost funkcije kriterija koja izražava mjeru odstupanja postignute pozicije i orijentacije od željene.
 
