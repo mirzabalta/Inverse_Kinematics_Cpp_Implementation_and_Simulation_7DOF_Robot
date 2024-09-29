@@ -1,4 +1,4 @@
-# Optimizacijski pristup i primjena BFGS algoritma u rješavanju problema inverzne kinematike robotskog manipulatora
+# Optimizacijski pristup i primjena BFGS algoritma u rješavanju problema inverzne kinematike
 
 Ovaj repozitorij sadrži implementaciju rješenja problema inverzne kinematike 7-DOF (7 stepeni slobode kretanja) robotskog manipulatora. **Broyden–Fletcher–Goldfarb–Shanno (BFGS)** optimizacijski algoritam primijenjen je za rješavanje ovog problema. Ovaj algoritam je implementiran u programskom jeziku C++, u obliku **S-funkcije** koja je kao blok inverzne kinematike primijenjena u simulaciji koja je rađena u **Matlab Simulink-u**. Problem inverzne kinematike je tretiran kao problem nelinearne optimizacije bez ograničenja za varijable, čime je omogućena direktna primjena BFGS metode.
 
